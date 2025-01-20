@@ -1,0 +1,101 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkrr0mesppdl7"]
+
+[ext_resource type="Script" path="res://Attacks/attack.gd" id="1_6gik7"]
+[ext_resource type="PackedScene" uid="uid://6lqkdfct4hab" path="res://Maps/Battle Stuff/cannon.tscn" id="2_f6dk3"]
+
+[sub_resource type="Animation" id="Animation_e7hbn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(241, -65)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_066oi"]
+resource_name = "Rotate"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.7, 2.96667, 3.5, 3.7),
+"transitions": PackedFloat32Array(0.366022, 2.54912, 1, 2.82843, 2.54912, 1),
+"update": 0,
+"values": [Vector2(241, -65), Vector2(241, 155), Vector2(241, 135), Vector2(241, 135), Vector2(241, 115), Vector2(241, 335)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 2.96667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_haacb"]
+_data = {
+"RESET": SubResource("Animation_e7hbn"),
+"Rotate": SubResource("Animation_066oi")
+}
+
+[node name="Rotaing Death" type="Node2D"]
+position = Vector2(241, -65)
+script = ExtResource("1_6gik7")
+
+[node name="Cannon" parent="." instance=ExtResource("2_f6dk3")]
+position = Vector2(100, -25)
+rotation = -1.5708
+reset_time = 0.25
+time_to_shoot = 3.0
+
+[node name="Cannon2" parent="." instance=ExtResource("2_f6dk3")]
+position = Vector2(100, 25)
+rotation = -1.5708
+reset_time = 0.25
+time_to_shoot = 3.0
+
+[node name="Cannon6" parent="." instance=ExtResource("2_f6dk3")]
+position = Vector2(-100, -25)
+rotation = 1.5708
+reset_time = 0.25
+time_to_shoot = 3.0
+
+[node name="Cannon4" parent="." instance=ExtResource("2_f6dk3")]
+position = Vector2(-100, 25)
+rotation = 1.5708
+reset_time = 0.25
+time_to_shoot = 3.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_haacb")
+}
+autoplay = "Rotate"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://6lqkdfct4hab"]
+
+[ext_resource type="Script" path="res://Player/Code/cannon.gd" id="1_ikmj0"]
+[ext_resource type="Texture2D" uid="uid://njrfxp0820ss" path="res://Maps/Battle Stuff/Basic Cannon.png" id="2_t1ssp"]
+
+[node name="Cannon" type="CharacterBody2D"]
+script = ExtResource("1_ikmj0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+rotation = 1.5708
+texture = ExtResource("2_t1ssp")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="timetoshoot" type="Timer" parent="."]
+
+[node name="Shoot" type="AudioStreamPlayer" parent="."]
+volume_db = -80.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="timetoshoot" to="." method="_on_timetoshoot_timeout"]

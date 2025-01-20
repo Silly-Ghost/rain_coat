@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://q3suflmydk74"]
+
+[ext_resource type="Script" path="res://Maps/GeneralCode/bullet.gd" id="1_tx7qn"]
+[ext_resource type="Texture2D" uid="uid://dr0ub4y58yo8d" path="res://Maps/Battle Stuff/Bullet.png" id="2_iqowu"]
+[ext_resource type="AudioStream" uid="uid://cmqtpgraqbnkt" path="res://Sounds/hit.ogg" id="3_vwlky"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a3e0e"]
+radius = 2.0
+
+[node name="bullet" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_tx7qn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_iqowu")
+
+[node name="player detector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player detector"]
+shape = SubResource("CircleShape2D_a3e0e")
+
+[node name="hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vwlky")
+volume_db = -5.0
+
+[connection signal="body_entered" from="player detector" to="." method="_on_player_detected"]
+[connection signal="finished" from="hit" to="." method="_on_hit_finished"]

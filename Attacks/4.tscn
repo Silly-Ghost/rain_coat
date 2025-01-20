@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq0yc6q4yn74x"]
+
+[ext_resource type="Script" path="res://Attacks/Tile Attack.gd" id="1_codne"]
+
+[node name="4" type="Node2D"]
+position = Vector2(184, 79)
+script = ExtResource("1_codne")
