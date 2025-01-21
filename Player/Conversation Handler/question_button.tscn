@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgr4ajltr4wqx"]
+
+[ext_resource type="Script" path="res://Player/Code/qustion_button.gd" id="1_wdul2"]
+[ext_resource type="FontFile" uid="uid://40sjnp77uh0x" path="res://HardWare/Fonts/Light.ttf" id="2_a14ld"]
+
+[sub_resource type="Theme" id="Theme_0f7cj"]
+default_font = ExtResource("2_a14ld")
+default_font_size = 13
+
+[node name="Question Button" type="TextureButton"]
+offset_right = 176.0
+offset_bottom = 11.0
+script = ExtResource("1_wdul2")
+
+[node name="Question Num" type="Label" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = -1.0
+offset_right = 178.0
+offset_bottom = 14.0
+mouse_filter = 1
+theme = SubResource("Theme_0f7cj")
+theme_override_colors/font_color = Color(0.984314, 0.960784, 0.937255, 1)
+theme_override_constants/line_spacing = -4
+text = "1:"
+autowrap_mode = 3
+
+[node name="Question" type="Label" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = -1.0
+offset_right = 181.0
+offset_bottom = 14.0
+mouse_filter = 1
+theme = SubResource("Theme_0f7cj")
+theme_override_colors/font_color = Color(0.984314, 0.960784, 0.937255, 1)
+theme_override_constants/line_spacing = -4
+text = "…"
+autowrap_mode = 3
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

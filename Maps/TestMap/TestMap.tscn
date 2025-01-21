@@ -486,6 +486,11 @@ sources/0 = SubResource("TileSetAtlasSource_x0crj")
 y_sort_enabled = true
 script = ExtResource("1_5p2jo")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(511, 353)
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
 [node name="BackGround" type="Node2D" parent="."]
 
 [node name="Stars" type="ColorRect" parent="BackGround"]
@@ -499,11 +504,6 @@ material = SubResource("ShaderMaterial_1m005")
 offset_right = 1113.0
 offset_bottom = 555.0
 color = Color(0.0899587, 0.0899043, 0.169783, 1)
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(300, 319)
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -535,6 +535,7 @@ y_sort_enabled = true
 position = Vector2(511, 353)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Chacters/Player"]
+remote_path = NodePath("../../../Camera2D")
 
 [node name="Primo" parent="Chacters" instance=ExtResource("7_g1lmv")]
 position = Vector2(300, 319)
@@ -543,4 +544,3 @@ position = Vector2(300, 319)
 position = Vector2(300, 319)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Chacters/CutScene Camera"]
-remote_path = NodePath("../../../Camera2D")

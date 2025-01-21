@@ -15,11 +15,10 @@ func _on_timer_timeout() -> void:
 
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
-	print("hi")
 	if can_hit:
 		can_hit = false
 		get_parent().get_parent().get_parent().bullet_conected()
-		body._on_hit(10)
+		body._on_hit(2)
 
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:

@@ -246,6 +246,7 @@ offset_top = -140.0
 offset_right = 245.0
 offset_bottom = 140.0
 color = Color(0.0899587, 0.0899043, 0.169783, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="TileMap" type="TileMap" parent="batlle map/Battle Ground"]
 tile_set = SubResource("TileSet_x6ci6")
@@ -262,6 +263,7 @@ offset_top = -5.0
 offset_right = 485.0
 offset_bottom = 275.0
 color = Color(0.0899587, 0.0899043, 0.169783, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="BattleMap" type="Sprite2D" parent="batlle map/Battle Ground/TileMap"]
 position = Vector2(240, 135)
@@ -293,14 +295,12 @@ scale = Vector2(1.05, 1.05)
 texture = ExtResource("2_y4r4v")
 
 [node name="NpcBlur" type="Sprite2D" parent="batlle map/Battle Ground/TileMap"]
-visible = false
 z_index = -1
 position = Vector2(240, 42)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("7_qlddo")
 
 [node name="Npc" type="Sprite2D" parent="batlle map/Battle Ground/TileMap"]
-visible = false
 position = Vector2(240, 42)
 texture = ExtResource("7_qlddo")
 

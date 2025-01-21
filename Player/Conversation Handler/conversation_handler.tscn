@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://blsib51273ahq"]
+
+[ext_resource type="Texture2D" uid="uid://4xd5g16lwctu" path="res://Player/Conversation Handler/Text_Menu.png" id="1_eiis4"]
+[ext_resource type="Script" path="res://Player/Code/conversation_handler.gd" id="1_jbp88"]
+[ext_resource type="Script" path="res://Player/Code/talk_box.gd" id="2_fohek"]
+[ext_resource type="FontFile" uid="uid://40sjnp77uh0x" path="res://HardWare/Fonts/Light.ttf" id="3_qatgg"]
+[ext_resource type="AudioStream" uid="uid://d0ym8x3qteqy" path="res://Sounds/Type.ogg" id="4_28kqs"]
+[ext_resource type="Texture2D" uid="uid://cq4bgxygbhue2" path="res://Player/Conversation Handler/next.png" id="5_epoec"]
+[ext_resource type="Texture2D" uid="uid://druisi76bdj68" path="res://Player/Conversation Handler/Qustion Box.png" id="7_2ljco"]
+[ext_resource type="Script" path="res://Player/Code/questions.gd" id="7_qu0yw"]
+
+[sub_resource type="Theme" id="Theme_0f7cj"]
+default_font = ExtResource("3_qatgg")
+default_font_size = 13
+
+[node name="Conversation Handler" type="Node2D"]
+script = ExtResource("1_jbp88")
+
+[node name="Talk" type="Node2D" parent="."]
+script = ExtResource("2_fohek")
+
+[node name="Sprite" type="Sprite2D" parent="Talk"]
+position = Vector2(240, 230)
+texture = ExtResource("1_eiis4")
+
+[node name="Label" type="Label" parent="Talk"]
+offset_left = 154.0
+offset_top = 204.0
+offset_right = 328.0
+offset_bottom = 255.0
+theme = SubResource("Theme_0f7cj")
+theme_override_colors/font_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+theme_override_constants/line_spacing = -4
+autowrap_mode = 3
+
+[node name="update_timer" type="Timer" parent="Talk"]
+one_shot = true
+
+[node name="Type" type="AudioStreamPlayer" parent="Talk"]
+stream = ExtResource("4_28kqs")
+bus = &"Text"
+
+[node name="Next Arrow" type="Sprite2D" parent="Talk"]
+position = Vector2(319, 247)
+texture = ExtResource("5_epoec")
+centered = false
+
+[node name="Questions" type="Node2D" parent="."]
+visible = false
+script = ExtResource("7_qu0yw")
+
+[node name="Sprite" type="Sprite2D" parent="Questions"]
+position = Vector2(240, 135)
+texture = ExtResource("7_2ljco")
+
+[node name="Container" type="VBoxContainer" parent="Questions"]
+offset_left = 136.0
+offset_top = 99.0
+offset_right = 344.0
+offset_bottom = 170.0
+theme_override_constants/separation = 19
+
+[connection signal="timeout" from="Talk/update_timer" to="Talk" method="_on_update_timer_timeout"]

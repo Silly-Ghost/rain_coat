@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dbox06dq1in3e"]
 
 [ext_resource type="Script" path="res://Maps/GeneralCode/scene_handaler.gd" id="1_aue78"]
-[ext_resource type="PackedScene" uid="uid://cel1hsucp20ja" path="res://Maps/TestMap/TestBattleMap.tscn" id="2_rokwn"]
+[ext_resource type="PackedScene" uid="uid://b1gwe2upglbea" path="res://Maps/TestMap/waiting place.tscn" id="2_urveo"]
 
 [sub_resource type="Animation" id="Animation_mdv4v"]
 resource_name = "Fade_In"
@@ -58,7 +58,7 @@ _data = {
 [node name="SceneHandaler" type="Node2D"]
 script = ExtResource("1_aue78")
 
-[node name="TestMap" parent="." instance=ExtResource("2_rokwn")]
+[node name="TestMap" parent="." instance=ExtResource("2_urveo")]
 
 [node name="Fader" type="AnimationPlayer" parent="."]
 root_node = NodePath("Fader")
@@ -70,4 +70,5 @@ libraries = {
 visible = false
 offset_right = 480.0
 offset_bottom = 270.0
+mouse_filter = 2
 color = Color(0.0901961, 0.0901961, 0.168627, 0)
