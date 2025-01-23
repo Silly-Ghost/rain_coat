@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://4fu3lp38dhxa"]
+
+[ext_resource type="Script" path="res://Maps/Props/event_button.gd" id="1_0ihlc"]
+
+[node name="EventButton" type="TextureButton"]
+offset_left = 452.0
+offset_top = 648.0
+offset_right = 472.0
+offset_bottom = 688.0
+script = ExtResource("1_0ihlc")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

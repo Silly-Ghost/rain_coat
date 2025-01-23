@@ -17,6 +17,7 @@ default_font_size = 13
 script = ExtResource("1_jbp88")
 
 [node name="Talk" type="Node2D" parent="."]
+visible = false
 script = ExtResource("2_fohek")
 
 [node name="Sprite" type="Sprite2D" parent="Talk"]

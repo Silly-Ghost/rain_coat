@@ -1,0 +1,169 @@
+[gd_scene load_steps=12 format=3 uid="uid://ircih1o71m56"]
+
+[ext_resource type="Script" path="res://Maps/GeneralCode/level_script.gd" id="1_jodi2"]
+[ext_resource type="Texture2D" uid="uid://te5bjjjnvtym" path="res://HardWare/Ghost Logo.png" id="2_hivf5"]
+[ext_resource type="Script" path="res://Maps/TestMap/splash_controler.gd" id="2_jm64k"]
+[ext_resource type="FontFile" uid="uid://bom7xoykx5ley" path="res://HardWare/Fonts/m3x6.ttf" id="3_3nenm"]
+[ext_resource type="AudioStream" uid="uid://blgc6si3f7wn7" path="res://HardWare/Key.mp3" id="4_qrrdy"]
+[ext_resource type="AudioStream" uid="uid://bt4mb76o7lrjk" path="res://HardWare/Ghost.ogg" id="6_t645t"]
+
+[sub_resource type="Theme" id="Theme_34ut2"]
+default_font = ExtResource("3_3nenm")
+default_font_size = 32
+
+[sub_resource type="Animation" id="Animation_2k6cv"]
+resource_name = "IDLE"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GhostLogo:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(200, 163), Vector2(202, 165)]
+}
+
+[sub_resource type="Animation" id="Animation_elk1e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GhostLogo:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 163)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ghost:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_nyaoq"]
+resource_name = "Poke"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ghost:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GhostLogo:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6lr55"]
+_data = {
+"IDLE": SubResource("Animation_2k6cv"),
+"Poke": SubResource("Animation_nyaoq"),
+"RESET": SubResource("Animation_elk1e")
+}
+
+[node name="splash" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_jodi2")
+
+[node name="SplashControler" type="Node2D" parent="."]
+script = ExtResource("2_jm64k")
+
+[node name="ColorRect" type="ColorRect" parent="SplashControler"]
+offset_right = 480.0
+offset_bottom = 270.0
+
+[node name="GhostLogo" type="Sprite2D" parent="SplashControler"]
+position = Vector2(240, 127)
+scale = Vector2(2, 2)
+texture = ExtResource("2_hivf5")
+hframes = 5
+
+[node name="Label" type="Label" parent="SplashControler"]
+offset_left = 200.0
+offset_top = 163.0
+offset_right = 282.0
+offset_bottom = 189.0
+theme = SubResource("Theme_34ut2")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Silly Ghost"
+
+[node name="Key" type="AudioStreamPlayer" parent="SplashControler"]
+stream = ExtResource("4_qrrdy")
+autoplay = true
+
+[node name="ghost" type="AudioStreamPlayer" parent="SplashControler"]
+stream = ExtResource("6_t645t")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SplashControler"]
+libraries = {
+"": SubResource("AnimationLibrary_6lr55")
+}
+autoplay = "IDLE"
+
+[node name="Timer" type="Timer" parent="SplashControler"]
+wait_time = 7.0
+one_shot = true
+autostart = true
+
+[node name="TextureButton" type="TextureButton" parent="SplashControler"]
+z_index = 1
+offset_left = 192.0
+offset_top = 85.0
+offset_right = 288.0
+offset_bottom = 169.0
+
+[connection signal="change_scene" from="SplashControler" to="." method="on_change_scene"]
+[connection signal="timeout" from="SplashControler/Timer" to="SplashControler" method="_on_timer_timeout"]
+[connection signal="pressed" from="SplashControler/TextureButton" to="SplashControler" method="_on_texture_button_pressed"]

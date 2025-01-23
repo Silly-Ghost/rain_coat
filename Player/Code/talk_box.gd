@@ -15,6 +15,7 @@ var message:String = ""
 var display_message:String = ""
 
 var is_question:bool = false
+var is_auto:bool = false
 var waitng_on_response:bool = false
 var convo_data:Dictionary = {}
 var curr_convo:int = 0
@@ -24,9 +25,9 @@ var message_lenght:int = 0
 
 #-> conversation handaler <-#
 
-func display_convo(temp_convo:Dictionary) -> void:
+func display_convo(temp_convo:Dictionary, temp_curr_convo:int = 0) -> void:
 	convo_data = temp_convo
-	curr_convo = 0
+	curr_convo = temp_curr_convo
 	convo_size = convo_data.convo_size
 	type_message(convo_data[curr_convo])
 
@@ -42,11 +43,18 @@ func update_convo() -> void:
 			type_message(convo_data[curr_convo])
 			return
 		else:
+			get_parent().get_parent().get_parent().end_event()
 			visible = false
 
 func check_if_question(message) -> bool:
 	if message.substr(0, 2) == "^!":
 		curr_char += 2
+		return true
+	return false
+
+func check_if_auto(message):
+	if message.substr(0, 1) == "%":
+		curr_char += 1
 		return true
 	return false
 
@@ -66,6 +74,14 @@ func type_message(update_message):
 	message_lenght = message.length()
 
 	is_question = check_if_question(message)
+	is_auto = check_if_auto(message)
+
+	get_parent().curr_convo = curr_convo
+	if get_parent().check_if_event_is_true(message):
+		message_lenght = 0
+		message = ""
+		visible = false
+		return
 
 
 	_on_update_timer_timeout()
@@ -81,6 +97,9 @@ func _on_update_timer_timeout() -> void:
 			update_timer.wait_time = UPDATE_SPEED_EXCLUDED_CHARS if message[curr_char] in EXCLUDED_CHARS else randf_range(UPDATE_SPEED_LOWER_RANGE, UPDATE_SPEED_UPER_RANGE)
 			update_timer.start()
 		else:
+			if is_auto:
+				update_convo()
+				return
 			update_arrow()
 	else:
 		update_arrow()
@@ -97,7 +116,7 @@ func _physics_process(_delta: float) -> void:
 		if message_lenght <= curr_char:
 			update_convo()
 			return
-		if message_lenght > curr_char:
+		if message_lenght > curr_char and not is_auto:
 			display_message = message if not is_question else message.substr(2, message_lenght)
 			curr_char = message_lenght
 			label.text = display_message

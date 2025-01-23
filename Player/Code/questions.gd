@@ -23,4 +23,5 @@ func _on_question_response(response:int):
 	hide()
 	for button in buttons:
 		button.queue_free()
+		buttons.erase(button)
 	conversation_handler.process_response(response)

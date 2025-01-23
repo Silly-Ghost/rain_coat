@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@onready var conversation_handler: Node2D = $"Hud/Conversation Handler"
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_state = animation_tree.get("parameters/playback")
 
@@ -9,9 +10,18 @@ var curr_animation_state:String = "IDLE"
 var last_animation_state:String = "IDLE"
 
 var state = PLAYER
+@export var is_set_chat:bool = false
+
 enum {
 	PLAYER,
 	CHAT,}
+
+
+signal event_finished()
+signal event(char_num:int, cords:Vector2, speed:int)
+
+func _ready() -> void:
+	state = CHAT if is_set_chat else PLAYER
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -19,7 +29,7 @@ func _physics_process(delta: float) -> void:
 			handel_movement(delta)
 			handel_animation()
 		CHAT:
-			pass # load chat menu in future
+			handel_animation()
 
 func handel_animation():
 	animation_tree.set("parameters/" + curr_animation_state + "/blend_position", last_input_vector)
@@ -41,3 +51,22 @@ func handel_movement(delta):
 		return
 
 	curr_animation_state = "IDLE"
+
+
+func play_convo(convo, sound):
+	curr_animation_state = "IDLE"
+	velocity = Vector2.ZERO
+	state = CHAT
+	conversation_handler.play_convo(convo, sound)
+
+func move_char(char_num, cords, speed):
+	emit_signal("event", char_num, cords, speed)
+
+func continue_convo():
+	conversation_handler.curr_convo += 1
+	conversation_handler.continue_convo()
+
+func end_event():
+	emit_signal("event_finished")
+	Data.save_game()
+	state = PLAYER

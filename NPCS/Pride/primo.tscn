@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://deewm8nmtpxr0"]
+[gd_scene load_steps=15 format=3 uid="uid://deewm8nmtpxr0"]
 
-[ext_resource type="Texture2D" uid="uid://bece8dootj3fw" path="res://NPCS/Pride Sprite.png" id="1_lc4h3"]
+[ext_resource type="Texture2D" uid="uid://bece8dootj3fw" path="res://NPCS/Pride/Pride Sprite.png" id="1_lc4h3"]
+[ext_resource type="Script" path="res://NPCS/Pride/dialogue.gd" id="2_vkogr"]
 
 [sub_resource type="Animation" id="Animation_ll8d4"]
 resource_name = "Idle_Down"
@@ -215,3 +216,6 @@ libraries = {
 visible = false
 position = Vector2(0.5, 5)
 shape = SubResource("RectangleShape2D_3dpg2")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_vkogr")

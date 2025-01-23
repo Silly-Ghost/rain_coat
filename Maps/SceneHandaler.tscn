@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbox06dq1in3e"]
+[gd_scene load_steps=14 format=3 uid="uid://dbox06dq1in3e"]
 
 [ext_resource type="Script" path="res://Maps/GeneralCode/scene_handaler.gd" id="1_aue78"]
-[ext_resource type="PackedScene" uid="uid://b1gwe2upglbea" path="res://Maps/TestMap/waiting place.tscn" id="2_urveo"]
+[ext_resource type="PackedScene" uid="uid://ircih1o71m56" path="res://Maps/maps/splash.tscn" id="2_oxepx"]
+[ext_resource type="AudioStream" uid="uid://v0koahfyed2o" path="res://Sounds/music/waiting sky.ogg" id="3_x0u2q"]
+[ext_resource type="Script" path="res://Maps/music_handaler.gd" id="4_c3gtq"]
 
 [sub_resource type="Animation" id="Animation_mdv4v"]
 resource_name = "Fade_In"
@@ -15,7 +17,23 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0.0901961, 0.0901961, 0.168627, 1), Color(0.0901961, 0.0901961, 0.168627, 0)]
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oefas"]
+resource_name = "Fade_In_White"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_3a2fy"]
@@ -30,7 +48,22 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0.0901961, 0.0901961, 0.168627, 0), Color(0.0901961, 0.0901961, 0.168627, 1)]
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_eomh0"]
+resource_name = "Fade_Out_White"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_tebkv"]
@@ -51,24 +84,78 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kcpir"]
 _data = {
 "Fade_In": SubResource("Animation_mdv4v"),
+"Fade_In_White": SubResource("Animation_oefas"),
 "Fade_Out": SubResource("Animation_3a2fy"),
+"Fade_Out_White": SubResource("Animation_eomh0"),
 "RESET": SubResource("Animation_tebkv")
+}
+
+[sub_resource type="Animation" id="Animation_7gkhi"]
+resource_name = "Fade_Out_Music"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Music_handaler:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.5, 1),
+"update": 0,
+"values": [0.0, -80.0]
+}
+
+[sub_resource type="Animation" id="Animation_7rrkh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Music_handaler:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xq1j5"]
+_data = {
+"Fade_Out_Music": SubResource("Animation_7gkhi"),
+"RESET": SubResource("Animation_7rrkh")
 }
 
 [node name="SceneHandaler" type="Node2D"]
 script = ExtResource("1_aue78")
 
-[node name="TestMap" parent="." instance=ExtResource("2_urveo")]
+[node name="splash" parent="." instance=ExtResource("2_oxepx")]
 
-[node name="Fader" type="AnimationPlayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="Fader" type="AnimationPlayer" parent="CanvasLayer"]
 root_node = NodePath("Fader")
 libraries = {
 "": SubResource("AnimationLibrary_kcpir")
 }
 
-[node name="Fader" type="ColorRect" parent="Fader"]
+[node name="Fader" type="ColorRect" parent="CanvasLayer/Fader"]
 visible = false
 offset_right = 480.0
 offset_bottom = 270.0
 mouse_filter = 2
 color = Color(0.0901961, 0.0901961, 0.168627, 0)
+
+[node name="Music_handaler" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_x0u2q")
+script = ExtResource("4_c3gtq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Music_handaler"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_xq1j5")
+}
+
+[connection signal="animation_finished" from="CanvasLayer/Fader" to="." method="_on_fader_animation_finished"]
+[connection signal="animation_finished" from="Music_handaler/AnimationPlayer" to="Music_handaler" method="_on_animation_player_animation_finished"]

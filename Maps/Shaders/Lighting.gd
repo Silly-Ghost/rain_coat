@@ -6,9 +6,11 @@ var screanScale:float = 4.0
 @export var additiveScale:float = 1
 
 func _ready() -> void:
+	if not Data.save_file["is_loaded"]:
+		Data.save_file["is_loaded"] = true
 	show()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var lights = get_lights()
 	var lightPos = get_light_pos(lights)
 	var lightRadiusAr = get_light_rad(lights)

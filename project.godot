@@ -13,6 +13,8 @@ config_version=5
 config/name="raincoat"
 run/main_scene="res://Maps/SceneHandaler.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/image="res://HardWare/Screenshot 2025-01-22 202431.png"
 config/icon="res://HardWare/LOGO.png"
 
 [audio]
@@ -77,3 +79,5 @@ click={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
