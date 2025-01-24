@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://dwv5qrif6mh2i" path="res://Maps/Props/player_triger_event.tscn" id="8_efvq5"]
 [ext_resource type="PackedScene" uid="uid://ja67ma87nr84" path="res://Maps/Props/Lamp.tscn" id="9_wgu4u"]
 [ext_resource type="PackedScene" uid="uid://dqt4dyyvjxx73" path="res://Player/player.tscn" id="10_j0ci3"]
-[ext_resource type="PackedScene" uid="uid://deewm8nmtpxr0" path="res://NPCS/Pride/primo.tscn" id="11_t6amv"]
 [ext_resource type="PackedScene" uid="uid://d246wja3tllss" path="res://NPCS/Wrath/Wryan.tscn" id="12_wy4on"]
+[ext_resource type="PackedScene" uid="uid://bq34rsfrbk2ne" path="res://NPCS/Pride/Primo_pride.tscn" id="12_yn4vu"]
 [ext_resource type="Script" path="res://NPCS/dialogue_world.gd" id="13_6rwla"]
 [ext_resource type="Shader" path="res://Maps/TestMap/Lighting.gdshader" id="14_xl4l2"]
 [ext_resource type="Script" path="res://Maps/Shaders/Lighting.gd" id="15_o5esa"]
@@ -537,21 +537,37 @@ texture = ExtResource("4_qr7i6")
 6:29/0 = 0
 6:29/0/y_sort_origin = -16
 15:10/0 = 0
+15:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 4, 8, 4, 8, 8, -8, 8)
 16:10/0 = 0
+16:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 4, 8, 4, 8, 8, -8, 8)
 15:11/0 = 0
+15:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:11/0 = 0
+16:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 15:12/0 = 0
+15:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:12/0 = 0
+16:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 15:13/0 = 0
+15:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, -8, -8, -8)
 16:13/0 = 0
+16:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, -8, -8, -8)
 17:10/0 = 0
+17:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 4, 8, 4, 8, 8, -8, 8)
 18:10/0 = 0
+18:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 4, 8, 4, 8, 8, -8, 8)
 17:11/0 = 0
+17:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 18:11/0 = 0
+18:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 17:12/0 = 0
+17:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 18:12/0 = 0
+18:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 17:13/0 = 0
+17:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, -8, -8, -8)
 18:13/0 = 0
+18:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, -8, -8, -8)
 0:26/0 = 0
 0:26/0/y_sort_origin = 16
 0:27/0 = 0
@@ -878,7 +894,7 @@ y_sort_enabled = true
 script = ExtResource("1_h4ymm")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(624, 656)
+position = Vector2(1014, 748)
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 
@@ -957,25 +973,30 @@ position = Vector2(1216, 352)
 
 [node name="Player" parent="Chacters" instance=ExtResource("10_j0ci3")]
 position = Vector2(624, 656)
+is_set_chat = true
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Chacters/Player"]
 remote_path = NodePath("../../../Camera2D")
 
-[node name="Primo" parent="Chacters" instance=ExtResource("11_t6amv")]
-position = Vector2(647, 534)
-
 [node name="Wryan" parent="Chacters" instance=ExtResource("12_wy4on")]
 position = Vector2(360, 631)
+
+[node name="Primo" parent="Chacters" instance=ExtResource("12_yn4vu")]
+position = Vector2(1014, 756)
+file_sound_path = "res://Sounds/primo voice.ogg"
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Chacters/Primo"]
+position = Vector2(0, -8)
+remote_path = NodePath("../../CutScene Camera")
 
 [node name="world dialogue" type="Node" parent="Chacters"]
 script = ExtResource("13_6rwla")
 
 [node name="CutScene Camera" type="Node2D" parent="Chacters"]
-visible = false
-position = Vector2(300, 319)
+position = Vector2(1014, 748)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Chacters/CutScene Camera"]
-visible = false
+remote_path = NodePath("../../../Camera2D")
 
 [node name="Lighting" type="CanvasLayer" parent="."]
 
@@ -989,4 +1010,9 @@ script = ExtResource("15_o5esa")
 [connection signal="event" from="Chacters/Trigers/EventButton" to="Chacters" method="_on_player_triger_event_event"]
 [connection signal="event" from="Chacters/Trigers/Player Triger Event" to="Chacters" method="_on_player_triger_event_event"]
 [connection signal="event" from="Chacters/Player" to="Chacters" method="move_char_to_location"]
+[connection signal="event_anim" from="Chacters/Player" to="Chacters" method="_on_player_event_anim"]
+[connection signal="event_finished" from="Chacters/Player" to="Chacters" method="_on_player_event_finished"]
+[connection signal="on_char_reached_loaction" from="Chacters/Player" to="Chacters" method="_on_wryan_on_char_reached_loaction"]
+[connection signal="pass_camera" from="Chacters/Player" to="Chacters" method="_on_player_pass_camera"]
 [connection signal="on_char_reached_loaction" from="Chacters/Wryan" to="Chacters" method="_on_wryan_on_char_reached_loaction"]
+[connection signal="on_char_reached_loaction" from="Chacters/Primo" to="Chacters" method="_on_wryan_on_char_reached_loaction"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bey3xai3u61p5"
+path="res://.godot/imported/they who wait.ogg-419e2bf450d0fbae1b1d367fb4741b95.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sounds/music/they who wait.ogg"
+dest_files=["res://.godot/imported/they who wait.ogg-419e2bf450d0fbae1b1d367fb4741b95.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

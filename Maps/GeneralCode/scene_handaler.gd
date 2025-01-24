@@ -18,7 +18,6 @@ func _input(_event: InputEvent) -> void:
 		is_fullscreen = true
 
 func _ready() -> void:
-	Data.load_game()
 	fader.get_child(0).show()
 	curr_scene.connect("change_scene", Callable(self, "on_change_scene"))
 

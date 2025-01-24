@@ -8,6 +8,7 @@ extends Node2D
 # for each responses add a responses from npc like 5.1 5.2 following the arrays num
 # *1:-5:reset of message... * is relationship mod 1:-5: /// npc_num:mod_amount:rest_of_message
 
+@onready var animation_player_2: AnimationPlayer = $AnimationPlayer2
 @onready var player: CharacterBody2D = $Player
 
 var scene_script = {
@@ -30,9 +31,20 @@ var scene_script = {
 }
 
 func _ready() -> void:
+	get_parent().play_song("space collision")
 	player.last_input_vector = Vector2(0, 1)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "player_load":
 		$AnimationPlayer.play("idle")
 		player.play_convo(scene_script, load("res://Sounds/Type 2.ogg"))
+
+
+func _on_player_event_finished() -> void:
+	animation_player_2.play("Distort")
+	await get_tree().create_timer(7.0).timeout
+	get_parent().on_change_scene("waiting place", Vector2.ZERO, 0)
+
+func _cut():
+	get_parent().play_song("")
+	$AudioStreamPlayer.stop()

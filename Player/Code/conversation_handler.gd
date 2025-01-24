@@ -21,6 +21,7 @@ func play_convo(temp_convo, sound):
 	if check_if_event_is_true(convo[curr_convo]):
 		return
 
+	talk.is_waiting = false
 	talk.visible = true
 	talk.display_convo(convo)
 
@@ -28,10 +29,11 @@ func continue_convo():
 	if curr_convo >= convo.convo_size:
 		get_parent().get_parent().end_event()
 		return
-	if check_if_event_is_true(convo[curr_convo]):
+	if check_if_event_is_true(convo[curr_convo]) or check_if_amnim(convo[curr_convo]):
 		return
 
 	talk.visible = true
+	talk.is_waiting = false
 	talk.display_convo(convo, curr_convo)
 
 func display_questions(questions_num:int):
@@ -44,9 +46,23 @@ func process_response(response_num):
 	questions_key += float(response_num) / 10.0
 	talk.question_response(questions_key)
 
+func check_if_amnim(message):
+	if message.substr(0, 1) == "!":
+		var split_message = message.split("!")
+		get_parent().get_parent().play_anim(int(split_message[1]), split_message[2])
+		return true
+	return false
+
 func check_if_event_is_true(message):
 	if message.substr(0, 1) == "#":
 		var split_message = message.split("#")
 		get_parent().get_parent().move_char(int(split_message[1]), Vector2(int(split_message[2]), int(split_message[3])), int(split_message[4]))
+		return true
+	return false
+
+func check_if_camera_pass(message):
+	if message.substr(0, 2) == "<>":
+		var split_message = message.split(">")
+		get_parent().get_parent().pass_camera_to_char(int(split_message[1]))
 		return true
 	return false

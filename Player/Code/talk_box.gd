@@ -14,6 +14,7 @@ const EXCLUDED_CHARS:Array = [",", ".", "!", "?"]
 var message:String = ""
 var display_message:String = ""
 
+var is_waiting:bool = true
 var is_question:bool = false
 var is_auto:bool = false
 var waitng_on_response:bool = false
@@ -44,6 +45,7 @@ func update_convo() -> void:
 			return
 		else:
 			get_parent().get_parent().get_parent().end_event()
+			is_waiting = true
 			visible = false
 
 func check_if_question(message) -> bool:
@@ -75,14 +77,16 @@ func type_message(update_message):
 
 	is_question = check_if_question(message)
 	is_auto = check_if_auto(message)
+	if get_parent().check_if_camera_pass(message):
+		update_convo()
 
 	get_parent().curr_convo = curr_convo
-	if get_parent().check_if_event_is_true(message):
+	if get_parent().check_if_event_is_true(message) or get_parent().check_if_amnim(message):
+		is_waiting = true
 		message_lenght = 0
 		message = ""
 		visible = false
 		return
-
 
 	_on_update_timer_timeout()
 
@@ -112,7 +116,7 @@ func update_arrow() -> void:
 #-> input handaler <-#
 
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("click"):
+	if Input.is_action_just_pressed("click") and not is_waiting:
 		if message_lenght <= curr_char:
 			update_convo()
 			return

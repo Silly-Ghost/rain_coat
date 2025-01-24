@@ -8,6 +8,7 @@ var speed:int = 37
 var last_input_vector:Vector2 = Vector2.ZERO
 var curr_animation_state:String = "IDLE"
 var last_animation_state:String = "IDLE"
+var waiting_on_animation:String = ""
 
 var state = PLAYER
 @export var is_set_chat:bool = false
@@ -16,9 +17,11 @@ enum {
 	PLAYER,
 	CHAT,}
 
-
+signal pass_camera(char)
+signal on_char_reached_loaction()
 signal event_finished()
 signal event(char_num:int, cords:Vector2, speed:int)
+signal event_anim(char_num:int, anim:String)
 
 func _ready() -> void:
 	state = CHAT if is_set_chat else PLAYER
@@ -62,6 +65,9 @@ func play_convo(convo, sound):
 func move_char(char_num, cords, speed):
 	emit_signal("event", char_num, cords, speed)
 
+func play_anim(char, anim):
+	emit_signal("event_anim", char, anim)
+
 func continue_convo():
 	conversation_handler.curr_convo += 1
 	conversation_handler.continue_convo()
@@ -70,3 +76,21 @@ func end_event():
 	emit_signal("event_finished")
 	Data.save_game()
 	state = PLAYER
+
+func on_play_anim(anim):
+	state = CHAT
+	animation_state.travel(anim)
+
+func play_aniamtion(anim):
+	state = CHAT
+	waiting_on_animation = anim
+	animation_state.travel(anim)
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if anim_name == waiting_on_animation:
+		animation_state.travel("IDLE")
+		waiting_on_animation = ""
+		emit_signal("on_char_reached_loaction")
+
+func pass_camera_to_char(char_num):
+	emit_signal("pass_camera", char_num)

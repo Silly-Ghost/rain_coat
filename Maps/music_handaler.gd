@@ -16,6 +16,7 @@ func play_song(song):
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	stop()
-	stream = load("res://Sounds/music/" + next_song + ".ogg")
 	volume_db = 0
-	play()
+	if next_song != "":
+		stream = load("res://Sounds/music/" + next_song + ".ogg")
+		play()

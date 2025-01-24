@@ -20,6 +20,11 @@ script = ExtResource("1_jbp88")
 visible = false
 script = ExtResource("2_fohek")
 
+[node name="ColorRect" type="ColorRect" parent="Talk"]
+offset_right = 480.0
+offset_bottom = 270.0
+color = Color(0, 0, 0, 0)
+
 [node name="Sprite" type="Sprite2D" parent="Talk"]
 position = Vector2(240, 230)
 texture = ExtResource("1_eiis4")
