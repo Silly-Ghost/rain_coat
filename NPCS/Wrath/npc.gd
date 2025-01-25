@@ -44,16 +44,16 @@ func _physics_process(delta: float) -> void:
 		if position.distance_to(move_to_lcaotion) <= 4:
 			animation_state.travel("IDLE")
 			move_to_lcaotion = Vector2.ZERO
-			emit_signal("on_char_reached_loaction")
+			on_char_reached_loaction.emit()
 	animation_tree.set("parameters/IDLE/blend_position", last_derection)
 
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
-	print(anim_name)
 	if anim_name == is_anim_wait:
-		emit_signal("on_char_reached_loaction")
+		on_char_reached_loaction.emit()
 
 
 func gone():
+	get_parent().get_parent().play_song("they who wait") 
 	last_derection = Vector2(0,1)
 	position = Vector2(1014, 756)

@@ -17,7 +17,7 @@ func _ready() -> void:
 
 func _on_pressed() -> void:
 	if Data.save_file["events"][eventName[0]] != true:
-		emit_signal("event", eventName[stage], npc)
+		event.emit(eventName[stage], npc)
 		stage += 1
 		if stage >= max_stages:
 			Data.save_file["events"][eventName[0]] = true

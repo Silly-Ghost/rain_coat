@@ -20,4 +20,4 @@ func _process(_delta: float) -> void:
 		scale = Vector2(1.05, 1.05) if is_hovering else Vector2(1, 1)
 
 func _on_pressed() -> void:
-	emit_signal("question_response", question_num)
+	question_response.emit(question_num)

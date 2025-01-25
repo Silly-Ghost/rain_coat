@@ -11,7 +11,7 @@ const UPDATE_SPEED_LOWER_RANGE:float = 0.05
 const UPDATE_SPEED_EXCLUDED_CHARS:float = 0.4
 const EXCLUDED_CHARS:Array = [",", ".", "!", "?"]
 
-var message:String = ""
+var curr_message:String = ""
 var display_message:String = ""
 
 var is_waiting:bool = true
@@ -71,20 +71,20 @@ func question_response(response_key):
 func type_message(update_message):
 	display_message = ""
 	next_arrow.visible = false
-	message = update_message
+	curr_message = update_message
 	curr_char = 0
-	message_lenght = message.length()
+	message_lenght = curr_message.length()
 
-	is_question = check_if_question(message)
-	is_auto = check_if_auto(message)
-	if get_parent().check_if_camera_pass(message):
+	is_question = check_if_question(curr_message)
+	is_auto = check_if_auto(curr_message)
+	if get_parent().check_if_camera_pass(curr_message):
 		update_convo()
 
 	get_parent().curr_convo = curr_convo
-	if get_parent().check_if_event_is_true(message) or get_parent().check_if_amnim(message):
+	if get_parent().check_if_event_is_true(curr_message) or get_parent().check_if_amnim(curr_message):
 		is_waiting = true
 		message_lenght = 0
-		message = ""
+		curr_message = ""
 		visible = false
 		return
 
@@ -92,13 +92,13 @@ func type_message(update_message):
 
 func _on_update_timer_timeout() -> void:
 	if message_lenght > curr_char:
-		display_message += message[curr_char]
+		display_message += curr_message[curr_char]
 		curr_char += 1
 		label.text = display_message
 		type.play()
 
 		if message_lenght > curr_char:
-			update_timer.wait_time = UPDATE_SPEED_EXCLUDED_CHARS if message[curr_char] in EXCLUDED_CHARS else randf_range(UPDATE_SPEED_LOWER_RANGE, UPDATE_SPEED_UPER_RANGE)
+			update_timer.wait_time = UPDATE_SPEED_EXCLUDED_CHARS if curr_message[curr_char] in EXCLUDED_CHARS else randf_range(UPDATE_SPEED_LOWER_RANGE, UPDATE_SPEED_UPER_RANGE)
 			update_timer.start()
 		else:
 			if is_auto:
@@ -121,7 +121,7 @@ func _physics_process(_delta: float) -> void:
 			update_convo()
 			return
 		if message_lenght > curr_char and not is_auto:
-			display_message = message if not is_question else message.substr(2, message_lenght)
+			display_message = curr_message if not is_question else curr_message.substr(2, message_lenght)
 			curr_char = message_lenght
 			label.text = display_message
 			update_timer.stop()

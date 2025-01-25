@@ -13,6 +13,7 @@ var save_file = {
 	"is_loaded" : false,
 	"events" : {},
 	"heart_level" : [0,0,0,0,0,0,0],
+	"player_pos" : Vector2.ZERO
 }
 
 
@@ -54,6 +55,7 @@ func load_game():
 			"save_file" = {
 			"events" : {},
 			"heart_level" : [0,0,0,0,0,0,0],
+			"player_pos" : Vector2.ZERO
 			}
 		}
 		save_game()

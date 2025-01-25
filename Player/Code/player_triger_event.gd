@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func _on_body_entered(_body: Node2D) -> void:
 	if Data.save_file["events"][eventNanme] != true:
-		emit_signal("event", eventNanme, npc)
+		event.emit(eventNanme, npc)
 		Data.save_file["events"]["Bridge 0"] = true
 		Data.save_file["events"][eventNanme] = true
 		queue_free()

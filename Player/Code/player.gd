@@ -57,23 +57,26 @@ func handel_movement(delta):
 
 
 func play_convo(convo, sound):
+	set_player_state()
+	conversation_handler.play_convo(convo, sound)
+
+func set_player_state():
 	curr_animation_state = "IDLE"
 	velocity = Vector2.ZERO
 	state = CHAT
-	conversation_handler.play_convo(convo, sound)
 
-func move_char(char_num, cords, speed):
-	emit_signal("event", char_num, cords, speed)
+func move_char(char_num, cords, temp_speed):
+	event.emit(char_num, cords, temp_speed)
 
-func play_anim(char, anim):
-	emit_signal("event_anim", char, anim)
+func play_anim(temp_char, anim):
+	event_anim.emit(temp_char, anim)
 
 func continue_convo():
 	conversation_handler.curr_convo += 1
 	conversation_handler.continue_convo()
 
 func end_event():
-	emit_signal("event_finished")
+	event_finished.emit()
 	Data.save_game()
 	state = PLAYER
 
@@ -90,7 +93,11 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name == waiting_on_animation:
 		animation_state.travel("IDLE")
 		waiting_on_animation = ""
-		emit_signal("on_char_reached_loaction")
+		on_char_reached_loaction.emit()
 
 func pass_camera_to_char(char_num):
-	emit_signal("pass_camera", char_num)
+	pass_camera.emit(char_num)
+
+
+func _on_test_map_change_player_pos(cords: Variant) -> void:
+	position = cords

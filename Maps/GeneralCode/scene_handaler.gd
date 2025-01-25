@@ -7,6 +7,7 @@ var is_fullscreen = false
 var fade_color:int = 0
 var scene_path = "res://Maps/maps/"
 var next_scene = null
+var player_spawn_cords:Vector2 = Vector2.ZERO
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_released("fullscreen"):
@@ -22,6 +23,7 @@ func _ready() -> void:
 	curr_scene.connect("change_scene", Callable(self, "on_change_scene"))
 
 func on_change_scene(scene, player_cords, temp_fade_color):
+	player_spawn_cords = player_cords
 	fade_color = temp_fade_color
 	match fade_color:
 		0:
@@ -39,6 +41,11 @@ func _on_fader_animation_finished(anim_name: StringName) -> void:
 		curr_scene.clean_up()
 		curr_scene = next_scene
 		next_scene = null
+
+		if player_spawn_cords != Vector2.ZERO: # Sets player position if needed
+			curr_scene.change_player_cords(player_spawn_cords)
+			player_spawn_cords = Vector2.ZERO
+
 		match anim_name:
 			"Fade_Out":
 				fader.play("Fade_In")

@@ -21,8 +21,8 @@ var npcs = [
 
 func _ready():
 	if Data.save_file["is_loaded"] == false:
+		player.position = Vector2(624, 656)
 		Data.save_file["is_loaded"] = true
-		get_parent().play_song("they who wait")
 
 		curr_camera = cutscene_remote_transform_2d
 		var Primo = get_node(npcs[0])
@@ -37,7 +37,11 @@ func _ready():
 
 		await get_tree().create_timer(7.0).timeout
 		player.play_convo(scene_script, Primo.sound)
-
+	else:
+		get_node(npcs[0]).last_derection = Vector2(0, 1)
+		_on_player_event_finished()
+		player.last_input_vector = Vector2(0,1)
+		player.end_event()
 
 func set_event(temp_script):
 	scene_script = temp_script
@@ -71,7 +75,10 @@ func _on_player_event_finished() -> void:
 	player_remote_transform_2d.remote_path = "../../../Camera2D"
 
 
-func _on_player_pass_camera(char: Variant) -> void:
+func _on_player_pass_camera(char_temp: Variant) -> void:
 	curr_camera.remote_path = ""
-	curr_camera = get_node(npcs[char]+"/RemoteTransform2D")
+	curr_camera = get_node(npcs[char_temp]+"/RemoteTransform2D")
 	curr_camera.remote_path = "../../../Camera2D"
+
+func get_player_distance_from_pos(pos) -> int:
+	return pos.distance_to(player.position)
